@@ -1,0 +1,19 @@
+.pramatic_logo {
+    font-family: 'Pacifico' , cursive;
+}
+
+.pramatic_header {
+    text-align: center;  margin: 2rem 0;
+}
+
+.pramatic_header_navigation {
+    text-align: center;  margin: 1rem;
+}
+
+.pramatic_footer {
+    text-align: center; margin :2rem;
+}
+
+.pramatic_footer_navigation {
+    text-align: center; margin :1rem;
+}

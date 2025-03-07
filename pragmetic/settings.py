@@ -129,6 +129,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+#os는 라이브러리 path는 경로 관련 모듈 join은 합친다
+#BASE_DIR은 현재 프로젝트 파일의 루트폴더의 위치, 즉 프로젝트가 위치한 곳을 의미한다.
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

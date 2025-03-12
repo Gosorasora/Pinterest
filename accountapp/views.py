@@ -3,6 +3,10 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def helloWorld(request):
+def helloworld(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
-      return render(request, "accountapp/helloworld.html")
+    if request.method == "POST":
+        return render(request, "accountapp/helloworld.html", context={"text": "POST World!!"})
+
+    else:
+        return render(request, "accountapp/helloworld.html", context={"text": "GET World!!"})

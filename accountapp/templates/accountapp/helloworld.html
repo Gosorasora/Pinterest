@@ -5,6 +5,7 @@
         <h1 class="pramatic_logo">
             Testing
         </h1>
+
         <form action="/account/helloworld/", method="post">
             {% csrf_token %}
             <div>
@@ -12,7 +13,6 @@
 
             </div>
             <input type="submit", class="btn btn-primary", value="POST">
-
         </form>
 
         {% if helloWorld_list %}

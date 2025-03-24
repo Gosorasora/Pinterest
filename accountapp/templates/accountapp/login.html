@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
 
-    <div style="text-align: center">
+    <div style="text-align: center; max-width: 500px; margin:4rem auto">
         <div>
             <h1>Login</h1>
         </div>
@@ -10,9 +11,10 @@
         <div>
             <form action="{% url 'accountapp:login' %}", method="post">
                 {% csrf_token %}
-                {{ form }}
+                {% bootstrap_form form %} {# 뷰에서 사용한 폼 클래스를 가져오는 것 #}
 
-                <input type="submit", class="btn btn-primary">
+                <input type="submit", class="btn btn-dark rounded-pill col-6 mt-3">
+{#                mt = margin top col 12 = 100%#}
             </form>
         </div>
     </div>

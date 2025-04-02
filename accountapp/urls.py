@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from . import views
-from .views import AccountCreateView, AccountDetailView
+from .views import AccountCreateView, AccountDetailView, AccountUpdateView
 
 app_name = "accountapp"
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
     path('create/', AccountCreateView.as_view(), name='create'),
     path('detail/<int:pk>', AccountDetailView.as_view(), name='detail'),
     #특정 유저의 PK가 필요함.
+    path('update/<int:pk>', AccountUpdateView.as_view(), name='update'),
 ]
 
 

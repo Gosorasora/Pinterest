@@ -1,11 +1,13 @@
 from audioop import reverse
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
+from accountapp.forms import AccountUpdateFrom
 from accountapp.models import helloWorld
 from django.urls import reverse, reverse_lazy
 
@@ -37,4 +39,18 @@ class AccountCreateView(CreateView):
 class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'
+    #유저 별로 다르게 보이도록
     template_name = 'accountapp/detail.html'
+
+class AccountUpdateView(PasswordChangeView):
+    form_class = PasswordChangeForm #장고 기본 제공 폼 / 강의와 다름
+    # form_class = AccountUpdateFrom
+    success_url = reverse_lazy('accountapp:helloworld') #reverse 함수형 reverse_lazy 클래스형
+    template_name = 'accountapp/update.html'
+
+    # detailview에 남아 있을 경우
+    # def get_success_url(self):
+    #     return reverse('accountapp:detail', kwargs={'pk': self.request.user.pk})
+
+
+

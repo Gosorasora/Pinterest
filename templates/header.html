@@ -7,9 +7,7 @@
         <span>nav2</span>
         <span>nav3</span>
         {% if not user.is_authenticated %}
-{#            <a href="{% url 'accountapp:login' %}?next={{ request.path }}">#}
-{#                <span>Login</span>#}
-{#            </a>#}
+{#            로그인 안 되어 있을 때 #}
         <form method="post" action="{% url 'accountapp:login' %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">
@@ -17,14 +15,15 @@
             </button>
         </form>
         {% else %}
-{#            <a href="{% url 'accountapp:logout' %}?next={{ request.path }}">#}
-{#                <span>logout</span>#}
-{#            </a>#}
+{#              로그인 되어 있을 때#}
+        <a href="{% url 'accountapp:detail' pk=user.pk %}">
+            <span>Mypage</span>
+        </a>
 
-        <form method="post" action="{% url 'accountapp:logout' %}">
+        <form method="post" action="{% url 'accountapp:logout'  %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">
-                Logout
+                <span>Logout</span>
             </button>
         </form>
         {% endif %}

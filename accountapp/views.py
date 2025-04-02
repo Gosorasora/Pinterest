@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from accountapp.forms import AccountUpdateFrom
 from accountapp.models import helloWorld
@@ -43,6 +43,7 @@ class AccountDetailView(DetailView):
     template_name = 'accountapp/detail.html'
 
 class AccountUpdateView(PasswordChangeView):
+    model = User
     form_class = PasswordChangeForm #장고 기본 제공 폼 / 강의와 다름
     # form_class = AccountUpdateFrom
     success_url = reverse_lazy('accountapp:helloworld') #reverse 함수형 reverse_lazy 클래스형
@@ -51,6 +52,13 @@ class AccountUpdateView(PasswordChangeView):
     # detailview에 남아 있을 경우
     # def get_success_url(self):
     #     return reverse('accountapp:detail', kwargs={'pk': self.request.user.pk})
+
+class AccountDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('accountapp:helloworld') #reverse 함수형 reverse_lazy 클래스형
+    template_name = 'accountapp/delete.html'
+
+
 
 
 

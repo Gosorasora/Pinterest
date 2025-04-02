@@ -17,7 +17,11 @@
         </p>
         </a>
 
+        <a href="{% url 'accountapp:delete' pk=target_user.pk %}">
+        <p>
+            Quit
+        </p>
+        </a>
     {% endif %}
     </div>
-
 {% endblock %}

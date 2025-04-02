@@ -45,6 +45,7 @@ class AccountDetailView(DetailView):
 class AccountUpdateView(PasswordChangeView):
     model = User
     form_class = PasswordChangeForm #장고 기본 제공 폼 / 강의와 다름
+    context_object_name = 'target_user'
     # form_class = AccountUpdateFrom
     success_url = reverse_lazy('accountapp:helloworld') #reverse 함수형 reverse_lazy 클래스형
     template_name = 'accountapp/update.html'
@@ -55,6 +56,7 @@ class AccountUpdateView(PasswordChangeView):
 
 class AccountDeleteView(DeleteView):
     model = User
+    context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:helloworld') #reverse 함수형 reverse_lazy 클래스형
     template_name = 'accountapp/delete.html'
 

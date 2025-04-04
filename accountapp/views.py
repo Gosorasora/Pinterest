@@ -55,7 +55,7 @@ class AccountUpdateView(PasswordChangeView):
 
     # detailview에 남아 있을 경우
     # def get_success_url(self):
-    #     return reverse('accountapp:detail', kwargs={'pk': self.request.user.pk})
+    #     return reverse('profileapp:detail', kwargs={'pk': self.request.user.pk})
 
 @method_decorator(has_ownership, 'get')
 @method_decorator(has_ownership, 'post')

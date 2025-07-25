@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 
-
 def account_ownership_required(func):
     def decorated(request, *args, **kwargs):
         #유저가 접근 할 때마다 그 유저의 pk를 확인함.

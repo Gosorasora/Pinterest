@@ -3,6 +3,15 @@
     <h1 class="pramatic_logo" >Pragmatic</h1>
 
     <div class="pramatic_header_navigation">
+{#        <form method="post" action="{% url 'articleapp:list' %}">#}
+{#            {% csrf_token %}#}
+{#            <button type="submit" class="btn btn-primary">#}
+{#                Article#}
+{#            </button>#}
+{#        </form>#}
+        <a href = "{% url 'articleapp:list' %}">
+            <span>Ariticles</span>
+        </a>
         <span>nav1</span>
         <span>nav2</span>
         <span>nav3</span>

@@ -37,7 +37,6 @@ class AccountCreateView(CreateView):
     success_url = reverse_lazy('accountapp:helloworld')  # reverse 함수형 reverse_lazy 클래스형
     template_name = 'accountapp/create.html'
 
-
 class AccountDetailView(DetailView):
     model = User
     context_object_name = 'target_user'

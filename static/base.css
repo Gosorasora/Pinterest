@@ -1,27 +1,41 @@
-.pramatic_logo {
-    font-family: 'Pacifico' , cursive;
+.pragmatic_logo {
+    font-family: 'Lobster', cursive;
 }
 
-.pramatic_header {
-    text-align: center;  margin: 2rem 0;
-}
-
-.pramatic_header_navigation {
-    text-align: center;  margin: 1rem;
-}
-
-.pramatic_footer {
-    text-align: center; margin :2rem;
+.pragmatic_footer_button {
     font-size: .9rem;
 }
 
-.pramatic_footer_navigation {
-    text-align: center; margin :1rem;
-    font-size: .9rem;
+.pragmatic_footer {
+    text-align:center;
+    margin-top: 2rem;
 }
 
-@media screen and (max-width: 500px){
-    html{
-        font-size:13px;
+.pragmatic_header {
+    text-align:center;
+    margin: 2rem 0;
+}
+
+@media screen and (max-width:500px) {
+    html {
+        font-size: 13px;
     }
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.prgmatic_header_nav {
+    margin: 0 0.5rem;
+}
+
+
+.pragmatic_header_navbar {
+    margin: 1rem 0;
 }

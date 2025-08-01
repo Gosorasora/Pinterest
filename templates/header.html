@@ -1,46 +1,29 @@
-<div class="pramatic_header">
 
-    <h1 class="pramatic_logo" >Pragmatic</h1>
-
-    <div class="pramatic_header_navigation">
-{#        <form method="post" action="{% url 'articleapp:list' %}">#}
-{#            {% csrf_token %}#}
-{#            <button type="submit" class="btn btn-primary">#}
-{#                Article#}
-{#            </button>#}
-{#        </form>#}
-        <a href = "{% url 'articleapp:list' %}">
-            <span>Ariticles</span>
-        </a>
-        <span>nav1</span>
-        <span>nav2</span>
-        <span>nav3</span>
-        {% if not user.is_authenticated %}
-{#            로그인 안 되어 있을 때 #}
-        <form method="post" action="{% url 'accountapp:login' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">
-                Login
-            </button>
-        </form>
-        <form method="post" action="{% url 'accountapp:create' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">
-                Sign Up
-            </button>
-        </form>
-        {% else %}
-{#              로그인 되어 있을 때#}
-        <a href="{% url 'accountapp:detail' pk=user.pk %}">
-            <span>Mypage</span>
-        </a>
-
-        <form method="post" action="{% url 'accountapp:logout'  %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">
-                <span>Logout</span>
-            </button>
-        </form>
-        {% endif %}
+    <div class="pragmatic_header">
+        <div>
+            <h1 class="pragmatic_logo">Pragmatic</h1>
+        </div>
+        <div class="pragmatic_header_navbar">
+            <a href="{% url 'articleapp:list' %}" class="prgmatic_header_nav">
+                <span>Articles</span>
+            </a>
+            <a href="{% url 'projectapp:list' %}" class="prgmatic_header_nav">
+                <span>Projects</span>
+            </a>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'accountapp:login' %}?next={{ request.path }}" class="prgmatic_header_nav">
+                <span>login</span>
+            </a>
+            <a href="{% url 'accountapp:create' %}" class="prgmatic_header_nav">
+                <span>SignUp</span>
+            </a>
+            {% else %}
+            <a href="{% url 'accountapp:detail' pk=user.pk %}" class="prgmatic_header_nav">
+                <span>MyPage</span>
+            </a>
+            <a href="{% url 'accountapp:logout' %}?next={{ request.path }}" class="prgmatic_header_nav">
+                <span>logout</span>
+            </a>
+            {% endif %}
+        </div>
     </div>
-</div>

@@ -25,6 +25,7 @@ class CommentCreateView(CreateView):
     def get_success_url(self):
         return reverse('articleapp:detail', kwargs={'pk': self.object.article.pk})
         #comment의 article의 pk를 가진 곳으로 돌아가라
+
 class CommentDeleteView(DeleteView):
     model = Comment
     context_object_name = 'target_comment'

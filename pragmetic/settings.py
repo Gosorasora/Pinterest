@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'articleapp',
     'commentapp',
     'projectapp',
+    'subscribeapp',
 ]
 
 MIDDLEWARE = [
@@ -149,7 +150,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = reverse_lazy('accountapp:helloworld')
-LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:helloworld')
+LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 
 #local/media/..
 MEDIA_URL = '/media/'

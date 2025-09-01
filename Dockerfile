@@ -1,0 +1,20 @@
+FROM python:3.11
+
+WORKDIR /home/
+
+RUN git clone https://github.com/Gosorasora/Pinterest.git
+
+WORKDIR /home/Pinterest
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+#위험함 지울 예정
+RUN echo "SECRET_KEY=django-insecure-x^(odz3e-hyi*043imunwhw)7^yh_j92wn7h7we%t^@sxd@=&u" > .env
+
+RUN python manage.py migrate
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+

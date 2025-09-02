@@ -23,7 +23,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourname/pinterest-app:latest
+          tags: gosorasora/pinterest-app:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            docker pull yourname/pinterest-app:latest
+            docker pull gosorasora/pinterest-app:latest
             docker stop pinterest-app || true
             docker rm pinterest-app || true
-            docker run -d -p 8000:8000 --name pinterest-app yourname/pinterest-app:latest
+            docker run -d -p 8000:8000 --name pinterest-app gosorasora/pinterest-app:latest

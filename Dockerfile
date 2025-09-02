@@ -7,6 +7,7 @@ RUN git clone https://github.com/Gosorasora/Pinterest.git
 WORKDIR /home/Pinterest
 
 RUN pip install --upgrade pip
+RUN pip install gunicorn
 RUN pip install -r requirements.txt
 
 #위험함 지울 예정
@@ -16,5 +17,5 @@ RUN python manage.py migrate
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn","pragmetic.wsgi", "--bind", "0.0.0.0:8000"]
 

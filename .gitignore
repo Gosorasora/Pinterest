@@ -253,5 +253,3 @@ cython_debug/
 /result
 /result-*
 >>>>>>> c443512b1c8b81232a09a87d27a4dbb1acd25f16
-
-nginx.conf

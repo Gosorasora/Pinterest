@@ -16,8 +16,8 @@ services:
       - pinterest-app
 
   pinterest-app:
+    image: gosorasora/pinterest-app:latest
     container_name: pinterest-app
-    build: .
     ports:
       - "8000:8000"
     volumes:
@@ -25,6 +25,26 @@ services:
       - media_volume:/home/Pinterest/media
     networks:
       - nginx-django
+
+  db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 020204
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nginx-django
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - nginx-django
+    depends_on:
+      - db
 
 networks:
   nginx-django:

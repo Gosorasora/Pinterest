@@ -2,7 +2,7 @@ FROM python:3.11
 
 WORKDIR /home/
 
-RUN git clone https://github.com/Gosorasora/Pinterest.git
+COPY . .
 
 WORKDIR /home/Pinterest
 

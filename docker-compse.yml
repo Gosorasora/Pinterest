@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - /home/Pinterest/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - nginx-django
+    depends_on:
+      - pinterest-app
+
+  pinterest-app:
+    container_name: pinterest-app
+    build: .
+    ports:
+      - "8000:8000"
+    networks:
+      - nginx-django
+
+networks:
+  nginx-django:
+    driver: bridge

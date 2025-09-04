@@ -51,5 +51,7 @@ jobs:
                 git clone https://github.com/Gosorasora/Pinterest.git .
             fi
             
-            # 4. Docker Compose를 사용하여 컨테이너 배포
+            # 4. Docker Compose를 사용하여 컨테이너 배포 -> 기존 컨테이너 종료후 
+            docker-compose down
+            
             docker-compose up --build -d

@@ -9,6 +9,7 @@ WORKDIR /home/Pinterest
 RUN pip install --upgrade pip
 RUN pip install gunicorn
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 #위험함 지울 예정
 RUN echo "SECRET_KEY=django-insecure-x^(odz3e-hyi*043imunwhw)7^yh_j92wn7h7we%t^@sxd@=&u" > .env

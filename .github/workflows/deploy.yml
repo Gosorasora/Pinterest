@@ -37,7 +37,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            docker pull gosorasora/pinterest-app:latest
-            docker stop pinterest-app || true
-            docker rm pinterest-app || true
-            docker run -d -p 8000:8000 --name pinterest-app gosorasora/pinterest-app:latest
+            # 1. 서버에 Docker Compose가 없으면 설치
+            if ! command -v docker-compose &> /dev/null; then
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+            fi
+
+            # 2. 최신 코드 가져오기
+            cd /home/Pinterest || exit
+            git pull
+
+            # 3. Docker Compose를 사용하여 컨테이너 배포
+            docker-compose up --build -d

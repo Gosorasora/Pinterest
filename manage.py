@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pragmetic.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pragmetic.settings.local')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 
     try:

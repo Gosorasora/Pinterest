@@ -46,7 +46,7 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
             fi
             
-            # 3. Git 리포지토리인지 확인 후, clone 또는 pull 실행
+            # 3. Git 리포지토리인지 확인 후, clone 또는 pull 실행하기
             if [ ! -d .git ]; then
               git clone https://github.com/Gosorasora/Pinterest.git .
             else

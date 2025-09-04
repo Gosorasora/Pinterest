@@ -8,6 +8,8 @@ services:
       - "80:80"
     volumes:
       - /home/Pinterest/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/data/static
+      - media_volume:/data/media
     networks:
       - nginx-django
     depends_on:
@@ -18,9 +20,16 @@ services:
     build: .
     ports:
       - "8000:8000"
+    volumes:
+      - static_volume:/home/Pinterest/static
+      - media_volume:/home/Pinterest/media
     networks:
       - nginx-django
 
 networks:
   nginx-django:
     driver: bridge
+
+volumes:
+  static_volume:
+  media_volume:

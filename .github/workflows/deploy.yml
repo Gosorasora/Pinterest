@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           script: |
             # 1. SSH 접속 후 프로젝트 디렉토리로 이동
-            cd /home/Pinterest || exit
+            cd /root/Pinterest || exit
             
             # 2. 서버에 Docker Compose가 없으면 설치
             if ! command -v docker-compose &> /dev/null; then
@@ -46,11 +46,9 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
             fi
             
-            # 3. Git 리포지토리인지 확인 후, clone 또는 pull 실행하기
-            if [ ! -d .git ]; then
-              git clone https://github.com/Gosorasora/Pinterest.git .
-            else
-              git pull
+            # 3. 최신 코드 가져오기 (pull이 실패하면 clone 시도)
+            if ! git pull; then
+                git clone https://github.com/Gosorasora/Pinterest.git .
             fi
             
             # 4. Docker Compose를 사용하여 컨테이너 배포

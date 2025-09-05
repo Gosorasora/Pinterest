@@ -30,7 +30,7 @@ services:
     image: mariadb:10.5
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: 020204
+      MARIADB_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
     volumes:
       - db_data:/var/lib/mysql
     networks:

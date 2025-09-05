@@ -10,6 +10,12 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
+# MariaDB/MySQL 클라이언트 라이브러리 설치
+RUN apt-get update && apt-get install -y \
+    default-libmysqlclient-dev \
+    build-essential \
+    pkg-config \
+
 # 5. 프로젝트 소스 코드 복사
 # 의존성 설치 후 소스 코드를 복사하여 불필요한 빌드를 줄임
 COPY . .

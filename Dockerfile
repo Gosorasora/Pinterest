@@ -10,7 +10,7 @@ WORKDIR /home/Pinterest
 
 # 먼저 의존성 파일을 복사하여 캐시 효율을 높임
 COPY requirements.txt .
-RUN pip install mysqlclient
+RUN apt-get update && apt-get install -y default-mysql-client
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 

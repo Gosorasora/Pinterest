@@ -49,11 +49,8 @@ jobs:
             # 3. 기존 컨테이너 중지 및 제거 (포트 충돌 방지)
             docker-compose down
 
-            # 4. 데이터베이스 마이그레이션 실행
-            DB_PASSWORD= "${{ secrets.DB_PASSWORD }}" docker-compose run --rm pinterest-app python manage.py migrate
-
-            # 5. 정적 파일 수집 실행
+            # 4. 정적 파일 수집 실행
             docker-compose run --rm pinterest-app python manage.py collectstatic --no-input
 
-            # 6. 최종 컨테이너 배포
-            DB_PASSWORD= "${{ secrets.DB_PASSWORD }}" docker-compose up --build -d
+            # 5. 최종 컨테이너 배포
+            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose up --build -d

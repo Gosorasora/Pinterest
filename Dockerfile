@@ -16,6 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN echo "SECRET_KEY=django-insecure-x^(odz3e-hyi*043imunwhw)7^yh_j92wn7h7we%t^@sxd@=&u" > .env
 
+COPY . .
+
 EXPOSE 8000
 
 # CMD 명령어는 단일 실행 파일로

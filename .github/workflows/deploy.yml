@@ -10,20 +10,25 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and Push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: gosorasora/pinterest-app:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,23 +42,42 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-              # 1. Docker Compose 파일이 있는 디렉토리로 이동
-              cd /root || exit
-
-              # 2. 서버에 Docker Compose가 없으면 설치
-              if ! command -v docker-compose &> /dev/null; then
-                sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-                sudo chmod +x /usr/local/bin/docker-compose
-              fi 
+            set -e  # 오류 발생 시 즉시 중단
             
-              # 3. 기존 컨테이너 중지 및 제거 (포트 충돌 방지)
-              docker-compose down
-
-              # 4. 데이터베이스 마이그레이션 실행
-              DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose run --rm pinterest-app python manage.py migrate
-
-              # 5. 정적 파일 수집 실행
-              docker-compose run --rm pinterest-app python manage.py collectstatic --no-input
-
-              # 6. 최종 컨테이너 배포
-              DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose up --build -d
+            echo "Starting deployment..."
+            
+            # 1. Docker Compose 파일이 있는 디렉토리로 이동
+            cd /root || exit
+            
+            # 2. 서버에 Docker Compose가 없으면 설치
+            if ! command -v docker-compose &> /dev/null; then
+              echo "Installing Docker Compose..."
+              sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+            fi 
+            
+            # 3. 최신 이미지 pull
+            echo "Pulling latest image..."
+            docker pull gosorasora/pinterest-app:latest
+            
+            # 4. 기존 컨테이너 중지 및 제거 (포트 충돌 방지)
+            echo "Stopping existing containers..."
+            docker-compose down || true
+            
+            # 5. 데이터베이스 마이그레이션 실행
+            echo "Running database migrations..."
+            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose run --rm pinterest-app python manage.py migrate
+            
+            # 6. 정적 파일 수집 실행
+            echo "Collecting static files..."
+            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose run --rm pinterest-app python manage.py collectstatic --no-input
+            
+            # 7. 최종 컨테이너 배포
+            echo "Starting containers..."
+            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose up -d
+            
+            # 8. 컨테이너 상태 확인
+            echo "Checking container status..."
+            docker-compose ps
+            
+            echo "Deployment completed successfully!"

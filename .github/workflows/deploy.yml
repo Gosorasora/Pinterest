@@ -46,9 +46,6 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
             fi
             
-#            # 4. Docker Compose를 사용하여 컨테이너 배포 -> 기존 컨테이너 종료후
-#            docker-compose down
-#            docker-compose up --build -d
-             #4. Docker Compose를 사용하여 컨테이너 배포
+            # 4. Docker Compose를 사용하여 컨테이너 배포 -> 기존 컨테이너 종료후
             DB_PASSWORD=${{ secrets.DB_PASSWORD }} docker-compose down
             DB_PASSWORD=${{ secrets.DB_PASSWORD }} docker-compose up --build -d

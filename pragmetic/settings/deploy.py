@@ -27,10 +27,10 @@ ALLOWED_HOSTS = ['*', '149.28.234.63']
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "mariadb",
-        "USER": "kosora",
-        "PASSWORD": "020204",
-        "HOST": "mariadb",
-        "PORT": "3306",
+        "NAME": os.environ.get('DB_NAME'),
+        "USER": os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT'),
     }
 }

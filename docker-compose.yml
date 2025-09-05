@@ -1,59 +1,55 @@
-name: CI/CD - Build, Push and Deploy
+version: '3.8'
 
-on:
-  push:
-    branches: ["main"]
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - /home/Pinterest/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/data/static
+      - media_volume:/data/media
+    networks:
+      - nginx-django
+    depends_on:
+      - pinterest-app
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  pinterest-app:
+    image: gosorasora/pinterest-app:latest
+    container_name: pinterest-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - static_volume:/home/Pinterest/static
+      - media_volume:/home/Pinterest/media
+    networks:
+      - nginx-django
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${ secrets.DB_PASSWORD }
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nginx-django
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - nginx-django
+    depends_on:
+      - db
 
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: gosorasora/pinterest-app:latest
+networks:
+  nginx-django:
+    driver: bridge
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Deploy to Server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_KEY }}
-          script: |
-            # 1. Docker Compose 파일이 있는 디렉토리로 이동
-            cd /root || exit
-
-            # 2. 서버에 Docker Compose가 없으면 설치
-            if ! command -v docker-compose &> /dev/null; then
-              sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            fi
-
-            # 3. 기존 컨테이너 중지 및 제거 (포트 충돌 방지)
-            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose down
-
-            # 4. 데이터베이스 마이그레이션 실행
-            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose run --rm pinterest-app python manage.py migrate
-
-            # 5. 정적 파일 수집 실행
-            docker-compose run --rm pinterest-app python manage.py collectstatic --no-input
-
-            # 6. 최종 컨테이너 배포
-            DB_PASSWORD="${{ secrets.DB_PASSWORD }}" docker-compose up --build -d
+volumes:
+  static_volume:
+  media_volume:

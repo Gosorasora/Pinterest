@@ -4,14 +4,9 @@ FROM python:3.11
 # 2. 작업 디렉토리 설정
 WORKDIR /home/
 
-# 3. 필요한 파일 복사 및 패키지 설치
-RUN apt-get update && apt-get install -y \
-    default-libmysqlclient-dev \
-    build-essential \
-    pkg-config
-
 # 먼저 의존성 파일을 복사하여 캐시 효율을 높임
 COPY requirements.txt .
+RUN pip install mysqlclient
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -23,7 +18,6 @@ COPY . .
 # 컨테이너 실행 시 .env 파일을 사용하지 않는다면 필요 없음
 # docker-compose.yml에서 환경변수를 직접 주입하는 것을 권장
 RUN echo "SECRET_KEY=django-insecure-x^(odz3e-hyi*043imunwhw)7^yh_j92wn7h7we%t^@sxd@=&u" > .env
-
 
 # 7. 포트 노출
 EXPOSE 8000

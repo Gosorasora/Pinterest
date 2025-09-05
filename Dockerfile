@@ -21,5 +21,6 @@ COPY . .
 EXPOSE 8000
 
 # CMD 명령어는 단일 실행 파일로
+CMD ["gunicorn", "pragmetic.wsgi", "--env", "DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy", "--bind", "0.0.0.0:8000"]
 #CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--env", "DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy", "pragmetic.wsgi:application"]
-CMD ["bash", "-c", "python manage.py migrate --settings=pragmetic.settings.deploy && gunicorn pragmetic.wsgi --env DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy --bind 0.0.0.0:8000"]
+#CMD ["bash", "-c", "python manage.py migrate --settings=pragmetic.settings.deploy && gunicorn pragmetic.wsgi --env DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy --bind 0.0.0.0:8000"]

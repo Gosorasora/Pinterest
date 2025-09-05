@@ -2,7 +2,7 @@
 FROM python:3.11
 
 # 2. 작업 디렉토리 설정
-WORKDIR /home/Pinterest
+WORKDIR /home/
 
 # 3. 필요한 파일 복사 및 패키지 설치
 # 먼저 의존성 파일을 복사하여 캐시 효율을 높임

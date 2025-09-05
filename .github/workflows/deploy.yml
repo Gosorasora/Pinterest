@@ -45,7 +45,7 @@ jobs:
               sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
               sudo chmod +x /usr/local/bin/docker-compose
             fi
-
+            
             # 3. 기존 컨테이너 중지 및 제거 (포트 충돌 방지)
             docker-compose down
 
@@ -56,4 +56,4 @@ jobs:
             docker-compose run --rm pinterest-app python manage.py collectstatic --no-input
 
             # 6. 최종 컨테이너 배포
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }} docker-compose up --
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }} docker-compose up --build -d

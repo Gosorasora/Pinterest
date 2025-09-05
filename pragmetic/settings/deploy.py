@@ -1,4 +1,5 @@
-import os
+
+
 import environ
 
 from . base import *
@@ -22,6 +23,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*', '149.28.234.63']
 
+import os
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {

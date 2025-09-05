@@ -4,13 +4,12 @@ FROM python:3.11
 # 2. 작업 디렉토리 설정
 WORKDIR /home/
 
-# MariaDB/MySQL 클라이언트 라이브러리 설치
+# 3. 필요한 파일 복사 및 패키지 설치
 RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     build-essential \
-    pkg-config \
+    pkg-config
 
-# 3. 필요한 파일 복사 및 패키지 설치
 # 먼저 의존성 파일을 복사하여 캐시 효율을 높임
 COPY requirements.txt .
 RUN pip install --upgrade pip
@@ -32,5 +31,4 @@ EXPOSE 8000
 # 8. 컨테이너 실행 명령어
 # CMD 명령어는 단일 실행 파일로
 #CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--env", "DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy", "pragmetic.wsgi:application"]
-
 CMD ["bash", "-c", "python manage.py migrate --settings=pragmetic.settings.deploy && gunicorn pragmetic.wsgi --env DJANGO_SETTINGS_MODULE=pragmetic.settings.deploy --bind 0.0.0.0:8000"]
